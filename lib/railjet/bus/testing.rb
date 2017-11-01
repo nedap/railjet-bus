@@ -1,6 +1,5 @@
 begin
   require "wisper/testing"
-  require "wisper/testing-ordering-fix"
 rescue LoadError
   puts "Railjet::Bus::Testing will only work in test environment"
 end
