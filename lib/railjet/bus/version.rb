@@ -1,5 +1,5 @@
 module Railjet
   class Bus
-    VERSION = "1.0.pre2"
+    VERSION = "1.0"
   end
 end
