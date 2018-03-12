@@ -28,6 +28,12 @@ module Railjet
       bus.subscribe(subscriber, on: event, prefix: true, async: true)
     end
 
+    def subscribe_listener(listener)
+      listener.subscriptions.each do |event|
+        subscribe(event, listener)
+      end
+    end
+
     private
 
     attr_reader :bus
