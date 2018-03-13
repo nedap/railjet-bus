@@ -34,10 +34,11 @@ describe Railjet::Listener do
 
   describe "#around_listener callback" do
     class DummyListenerWithCallback < Railjet::Listener
-      attr_accessor :tenant_id
+      attr_accessor :event, :tenant_id
 
-      def around_listener(**kwargs)
+      def around_listener(event, **kwargs)
         self.tenant_id = kwargs.fetch(:tenant_id)
+        self.event     = event
         yield(**kwargs.except(:tenant_id))
       ensure
         self.tenant_id = nil
@@ -49,6 +50,10 @@ describe Railjet::Listener do
 
       listen_to :dummy_event_with_arg do |x: 1|
         "Dummy event run with arg: #{x} and tenant set: #{tenant_id}"
+      end
+
+      listen_to :who_am_i? do
+        "I am #{event}"
       end
     end
 
@@ -64,6 +69,12 @@ describe Railjet::Listener do
 
     it "calls listener overriding default args" do
       expect(listener.on_dummy_event_with_arg(tenant_id: 333, x: 2)).to eq "Dummy event run with arg: 2 and tenant set: 333"
+    end
+
+    describe "#around_filter" do
+      it "knows which event was called" do
+        expect(listener.on_who_am_i?(tenant_id: 444)).to eq "I am who_am_i?"
+      end
     end
   end
 end

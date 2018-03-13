@@ -55,18 +55,18 @@ module Railjet
       private
 
       def define_listeners(event, &block)
-        name = listener_name(event)
-        define_listener(name, &block)
-        define_listener_caller(name)
+        define_listener(event, &block)
+        define_listener_caller(event)
       end
 
-      def define_listener(name, &block)
-        define_method name do |**kwargs|
-          around_listener(kwargs) { |args| instance_exec(args, &block) }
+      def define_listener(event, &block)
+        define_method listener_name(event) do |**kwargs|
+          around_listener(event, kwargs) { |args| instance_exec(args, &block) }
         end
       end
 
-      def define_listener_caller(name)
+      def define_listener_caller(event)
+        name = listener_name(event)
         define_singleton_method name do |**kwargs|
           new.public_send(name, **kwargs)
         end
@@ -80,7 +80,7 @@ module Railjet
     # This around block does nothing
     # but it's there as point of extensions so it could be easily overridden in
     # sub-class if some additional setup is needed
-    def around_listener(**kwargs)
+    def around_listener(event, **kwargs)
       yield(**kwargs)
     end
   end
