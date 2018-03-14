@@ -10,7 +10,7 @@ GIT
 PATH
   remote: .
   specs:
-    railjet-bus (1.0)
+    railjet-bus (1.1.0)
       railjet (~> 2.0)
       wisper (~> 2.0)
       wisper-sidekiq (~> 0.0.1)
