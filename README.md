@@ -1,4 +1,4 @@
-# RailjetBus, Dependency Inversion using Event Bus
+# RailjetBus, Dependency Inversion using Event Bus [![Build Status](https://semaphoreci.com/api/v1/nedap/railjet-bus/branches/master/badge.svg)](https://semaphoreci.com/nedap/railjet-bus)
 
 
 
