@@ -13,7 +13,7 @@ PATH
     railjet-bus (2.0.0)
       railjet (~> 3.0.0)
       wisper (~> 2.0)
-      wisper-sidekiq (~> 0.0.1)
+      wisper-sidekiq (~> 1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -89,8 +89,8 @@ GEM
       equalizer (~> 0.0, >= 0.0.9)
     wisper (2.0.0)
     wisper-rspec (0.0.3)
-    wisper-sidekiq (0.0.1)
-      sidekiq
+    wisper-sidekiq (1.2.0)
+      sidekiq (>= 4.1)
       wisper
 
 PLATFORMS
