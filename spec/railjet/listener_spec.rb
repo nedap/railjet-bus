@@ -3,6 +3,8 @@ require "railjet/bus"
 
 describe Railjet::Listener do
   class DummyListener < Railjet::Listener
+    sidekiq_options queue: :listener
+
     listen_to :dummy_event do
       "Dummy event run"
     end
@@ -16,6 +18,10 @@ describe Railjet::Listener do
 
   it "registers subscriptions" do
     expect(listener.subscriptions).to eq %i[dummy_event dummy_event_with_arg]
+  end
+
+  it "has sidekiq options" do
+    expect(listener.sidekiq_options).to eq({ queue: :listener })
   end
 
   describe "calling through class method" do

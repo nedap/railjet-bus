@@ -52,6 +52,14 @@ module Railjet
         define_listeners(event, &block)
       end
 
+      def sidekiq_options(options = {})
+        if options.present?
+          @sidekiq_options = options
+        else
+          @sidekiq_options
+        end
+      end
+
       private
 
       def define_listeners(event, &block)
