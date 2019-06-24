@@ -42,12 +42,7 @@ module Railjet
   class Listener
     include Railjet::Util::UseCaseHelper
 
-    def self.inherited(klass)
-      # If klass already respond to ::sidekiq_options_hash we're in a Child class and we don't want to create it again
-      unless klass.respond_to?(:sidekiq_options_hash)
-        klass.class_attribute :sidekiq_options_hash, default: Sidekiq.default_worker_options
-      end
-    end
+    class_attribute :sidekiq_options_hash, default: ::Sidekiq.default_worker_options
 
     class << self
       def subscriptions
