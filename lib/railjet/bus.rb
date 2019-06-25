@@ -42,6 +42,8 @@ module Railjet
   class Listener
     include Railjet::Util::UseCaseHelper
 
+    class_attribute :sidekiq_options_hash, default: ::Sidekiq.default_worker_options
+
     class << self
       def subscriptions
         @subscriptions ||= []
@@ -50,6 +52,14 @@ module Railjet
       def listen_to(event, &block)
         subscriptions << event
         define_listeners(event, &block)
+      end
+
+      def sidekiq_options(options = {})
+        if options.present?
+          self.sidekiq_options_hash = self.sidekiq_options_hash.merge(options.stringify_keys)
+        else
+          self.sidekiq_options_hash
+        end
       end
 
       private

@@ -3,6 +3,8 @@ require "railjet/bus"
 
 describe Railjet::Listener do
   class DummyListener < Railjet::Listener
+    sidekiq_options queue: :listener, retry: true
+
     listen_to :dummy_event do
       "Dummy event run"
     end
@@ -12,10 +14,25 @@ describe Railjet::Listener do
     end
   end
 
+  DummyListenerChild     = Class.new(DummyListener) { sidekiq_options retry: false }
+  DummyListenerNoOptions = Class.new(Railjet::Listener)
+
   subject(:listener) { DummyListener }
 
   it "registers subscriptions" do
     expect(listener.subscriptions).to eq %i[dummy_event dummy_event_with_arg]
+  end
+
+  it "allows to set sidekiq options" do
+    expect(listener.sidekiq_options).to eq({ "queue" => :listener, "retry" => true })
+  end
+
+  it "allows to override sidekiq options in a child class" do
+    expect(DummyListenerChild.sidekiq_options).to eq({ "queue" => :listener, "retry" => false })
+  end
+
+  it "uses sidekiq default options if nothing is specified" do
+    expect(DummyListenerNoOptions.sidekiq_options).to eq({ "queue" => "default", "retry" => true })
   end
 
   describe "calling through class method" do
