@@ -14,9 +14,8 @@ describe Railjet::Listener do
     end
   end
 
-  class DummyListenerChild < DummyListener
-    sidekiq_options retry: false
-  end
+  DummyListenerChild     = Class.new(DummyListener) { sidekiq_options retry: false }
+  DummyListenerNoOptions = Class.new(Railjet::Listener)
 
   subject(:listener) { DummyListener }
 
@@ -30,6 +29,10 @@ describe Railjet::Listener do
 
   it "allows to override sidekiq options in a child class" do
     expect(DummyListenerChild.sidekiq_options).to eq({ "queue" => :listener, "retry" => false })
+  end
+
+  it "uses sidekiq default options if nothing is specified" do
+    expect(DummyListenerNoOptions.sidekiq_options).to eq({ "queue" => "default", "retry" => true })
   end
 
   describe "calling through class method" do
