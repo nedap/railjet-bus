@@ -71,7 +71,7 @@ module Railjet
 
       def define_listener(event, &block)
         define_method listener_name(event) do |**kwargs|
-          around_listener(event, kwargs) { |args| instance_exec(args, &block) }
+          around_listener(event, **kwargs) { |**kwargs| instance_exec(**kwargs, &block) }
         end
       end
 
