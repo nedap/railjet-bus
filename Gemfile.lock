@@ -11,7 +11,7 @@ PATH
   remote: .
   specs:
     railjet-bus (2.1.2)
-      railjet (~> 3.1.0)
+      railjet (~> 3.2)
       wisper (~> 2.0)
       wisper-sidekiq (~> 1.0)
 
@@ -50,7 +50,7 @@ GEM
     rack (2.2.2)
     rack-protection (2.0.8.1)
       rack
-    railjet (3.1.0)
+    railjet (3.2.0)
       activemodel (> 4)
       activesupport (> 4)
       validates_timeliness (~> 4.1)
